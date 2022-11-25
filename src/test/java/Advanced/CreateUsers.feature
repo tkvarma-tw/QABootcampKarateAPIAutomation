@@ -11,6 +11,14 @@ Feature: Create new users to the application
     Then status 400
     And print "Error message is "+response.error
 
+  Scenario: Verify whether api with javascript and basic auth
+    Given url "https://postman-echo.com/basic-auth"
+    And header Authorization = call read('basic-auth.js') {username :'postman', password: 'password'}
+    When method GET
+    Then status 200
+    And assert response.authenticated == true
+
+
   Scenario: Verify ListUsers api with retry
     Given url "https://reqres.in/api/users"
     And param page = "2"
